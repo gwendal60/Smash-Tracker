@@ -7,10 +7,10 @@
 * 
 */
 
-class Pdo
+class PdoSmashTracker
 {
-    private static $serveur='';
-    private static $bdd='';
+    private static $serveur='mysql:host=localhost';
+    private static $bdd='dbname=smashtracker';
     private static $user='root';
     private static $mdp='';
     private static $monPdo;
@@ -18,20 +18,40 @@ class Pdo
 
     private function __construct()
     {
-        Pdo::$monPdo = new PDO(Pdo::$serveur.';'.Pdo::$bdd, Pdo::$user, Pdo::$mdp);
-        Pdo::$monPdo->query("SET CHARACTER SET utf8");
+        PdoSmashTracker::$monPdo = new PDO(PdoSmashTracker::$serveur.';'.PdoSmashTracker::$bdd, PdoSmashTracker::$user, PdoSmashTracker::$mdp);
+        PdoSmashTracker::$monPdo->query("SET CHARACTER SET utf8");
     }
     public function _destruct()
     {
-        Pdo::$monPdo = nul;
+        PdoSmashTracker::$monPdo = null;
     }
 
     public static function getPdoSmashTracker()
     {
-        if(Pdo::$monPdoSmashTracker==nul) {
-            Pdo::$monPdoSmashTracker = new Pdo();
+        if(PdoSmashTracker::$monPdoSmashTracker==null) {
+            PdoSmashTracker::$monPdoSmashTracker = new PdoSmashTracker();
         }
-        return Pdo::$monPdoSmashTracker;
+        return PdoSmashTracker::$monPdoSmashTracker;
+    }
+
+    /**
+     * Retourne les informations d'un utilisateur
+     * 
+     * @param $pseudo
+     * @param $mdp
+     */
+    public function getInfoUtilisateur($pseudo, $mdp)
+    {
+        $mdp_crypte = sha1($mdp);
+        $req = PdoSmashTracker::$monPdo->prepare(
+        "SELECT id FROM Utilisateur
+        WHERE pseudo = :par_pseudo
+        AND motDePasse = :par_mdp"
+        );
+        $req->bindValue(':par_pseudo',$pseudo, PDO::PARAM_STR);
+        $req->bindValue(':par_mdp',$mdp_crypte, PDO::PARAM_STR);
+        $res = $req->execute();
+        return $req->fetch();
     }
 }
 
