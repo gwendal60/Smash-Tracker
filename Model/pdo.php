@@ -53,6 +53,24 @@ class PdoSmashTracker
         $res = $req->execute();
         return $req->fetch();
     }
+
+    /**
+     * Ajoute dans la base de données un utilisateur
+     * 
+     * @param $pseudo
+     * @param $mdp
+     */
+    public function ajouteUnUtilisateur($pseudo, $mdp)
+    {
+        $req = PdoSmashTracker::$monPdo->prepare(
+            "INSERT INTO utilisateur
+            (pseudo, motDePasse)
+            VALUES (:par_pseudo, :par_mdp)"
+        );
+        $req->bindValue(':par_pseudo', $pseudo, PDO::PARAM_STR);
+        $req->bindValue(':par_mdp',$mdp, PDO::PARAM_STR);
+        $res = $req->execute();
+    }
 }
 
 ?>

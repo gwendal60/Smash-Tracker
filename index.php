@@ -16,15 +16,18 @@ $pdo = PdoSmashTracker::getPdoSmashTracker();
 //Appel de la fonction estConencte pour vérifier si un utilisateur est connecté
 
 $estConnecte = estConnecte();
-
-if(!isset($_REQUEST['uc']) || !$estConnecte){
+if(!isset($_REQUEST['uc']) && !$estConnecte){
     $_REQUEST['uc'] = 'connexion';
 }
 $uc = $_REQUEST['uc'];
 switch($uc){
     case 'connexion':
         include 'Controller/connexion.php';
-        break;
+    break;
+
+    case 'gestionDuProfil':
+        include 'Controller/gestionDuProfil.php';
+    break;
 }
 
 //On inclue le pied de page
