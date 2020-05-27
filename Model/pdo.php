@@ -35,22 +35,24 @@ class PdoSmashTracker
     }
 
     /**
-     * Retourne les informations d'un utilisateur
+     * Retourne les informations d'un utilisateur en fonction de son pseudo et mdp
      * 
      * @param $pseudo
      * @param $mdp
+     * @return les infos sur l'utilisateur
      */
     public function getInfoUtilisateur($pseudo, $mdp)
     {
         $mdp_crypte = sha1($mdp);
         $req = PdoSmashTracker::$monPdo->prepare(
-        "SELECT id FROM Utilisateur
+        "SELECT id 
+        FROM Utilisateur
         WHERE pseudo = :par_pseudo
         AND motDePasse = :par_mdp"
         );
         $req->bindValue(':par_pseudo',$pseudo, PDO::PARAM_STR);
         $req->bindValue(':par_mdp',$mdp_crypte, PDO::PARAM_STR);
-        $res = $req->execute();
+        $req->execute();
         return $req->fetch();
     }
 
@@ -59,7 +61,6 @@ class PdoSmashTracker
      * 
      * @param $pseudo
      * @param $mdp
-     * @return 
      */
     public function ajouteUnUtilisateur($pseudo, $mdp)
     {
@@ -71,6 +72,42 @@ class PdoSmashTracker
         $req->bindValue(':par_pseudo', $pseudo, PDO::PARAM_STR);
         $req->bindValue(':par_mdp',$mdp, PDO::PARAM_STR);
         $res = $req->execute();
+    }
+
+    /**
+     * Retourne les informations d'un utilisateur en fonction de son id
+     * 
+     * @param $id
+     * @return les infos sur l'utilisateur
+     */
+    public function getInfoUtilisateurId($id)
+    {
+        $req = PdoSmashTracker::$monPdo->prepare(
+            "SELECT pseudo
+            FROM Utilisateur
+            WHERE id = :par_id"
+        );
+        $req->bindValue(':par_id', $id, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetch();
+    }
+
+    /**
+     * Modifie dans la base de données les données d'un utilisateur
+     * 
+     * @param $id
+     * @param $pseudo
+     */
+    public function modifierUnUtilisateur($id, $pseudo)
+    {
+        $req = PdoSmashTracker::$monPdo->prepare(
+            "UPDATE Utilisateur
+            SET pseudo = :par_pseudo
+            WHERE id = :par_id"
+        );
+        $req->bindValue(':par_id',$id, PDO::PARAM_INT);
+        $req->bindValue(':par_pseudo',$pseudo, PDO::PARAM_STR);
+        $req->execute();
     }
 }
 

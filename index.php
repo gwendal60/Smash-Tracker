@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 //On inclue les fichiers pour les fonctions et la classe PDO
 
 require_once("model/pdo.php");
