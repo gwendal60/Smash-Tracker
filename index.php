@@ -28,6 +28,11 @@ switch($uc){
     case 'gestionDuProfil':
         include 'Controller/gestionDuProfil.php';
     break;
+
+    case 'deconnexion':
+        $estConnecte = deconnecter();
+        header('location: index.php');
+    break;
 }
 
 //On inclue le pied de page

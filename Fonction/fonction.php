@@ -36,4 +36,12 @@ function ajouteErreur($msg)
   $_REQUEST['erreurs'][]=$msg;
 }
 
+/**
+ * Détruit la session active
+ */
+function deconnecter()
+{
+  session_destroy();
+}
+
 ?>

@@ -29,6 +29,7 @@ switch($action){
 
             creerVarSession($id);
 
+            include 'View/menu.html';
             include 'View/acceuil.html';
         }else{
             ajouteErreur("utilisateur inéxistant");

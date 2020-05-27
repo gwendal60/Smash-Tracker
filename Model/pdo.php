@@ -59,6 +59,7 @@ class PdoSmashTracker
      * 
      * @param $pseudo
      * @param $mdp
+     * @return 
      */
     public function ajouteUnUtilisateur($pseudo, $mdp)
     {
