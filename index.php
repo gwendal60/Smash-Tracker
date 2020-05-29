@@ -31,6 +31,10 @@ switch($uc){
         include 'Controller/gestionDuProfil.php';
     break;
 
+    case 'gestionDesTournois':
+        include 'Controller/gestionDesTournois.php';
+    break;
+
     case 'deconnexion':
         $estConnecte = deconnecter();
         header('location: index.php');

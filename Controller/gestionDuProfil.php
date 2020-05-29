@@ -1,4 +1,5 @@
 <?php
+include "View/menu.html";
 if (!isset($_REQUEST['action'])) {
   $_REQUEST['action'] = 'CreerSonProfil';
 }

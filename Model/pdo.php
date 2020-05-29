@@ -109,6 +109,24 @@ class PdoSmashTracker
         $req->bindValue(':par_pseudo',$pseudo, PDO::PARAM_STR);
         $req->execute();
     }
+
+    /**
+     * Ajoute dans la base de donnée un tournoi
+     * 
+     * @param $nomTournoi
+     * @param $idTO
+     */
+    public function AjouterUnTournoi($nomTournoi, $idTO)
+    {
+        $req = PdoSmashTracker::$monPdo->prepare(
+            "INSERT INTO Tournoi
+            (nom, idTO)
+            VALUES (:par_nom, :par_idTO)"
+        );
+        $req->bindValue(':par_nom',$nomTournoi, PDO::PARAM_STR);
+        $req->bindValue(':par_idTO',$idTO, PDO::PARAM_INT);
+        $req->execute();
+    }
 }
 
 ?>
