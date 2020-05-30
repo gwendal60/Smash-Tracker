@@ -10,6 +10,11 @@ if (isset($_REQUEST['action'])) {
                 echo "Tournoi crée";
             }
         break;
+        
+        case 'ConsulterCesTournois':
+            $lesTournois = $pdo->getLesTournoisUtilisateur($_SESSION['idUtilisateur']);
+            include 'View/listeTournoi.php';
+            break;
     }
   }
 ?>

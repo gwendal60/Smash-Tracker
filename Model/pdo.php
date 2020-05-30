@@ -75,7 +75,7 @@ class PdoSmashTracker
     }
 
     /**
-     * Retourne les informations d'un utilisateur en fonction de son id
+     * Récupère les informations d'un utilisateur en fonction de son id
      * 
      * @param $id
      * @return les infos sur l'utilisateur
@@ -126,6 +126,24 @@ class PdoSmashTracker
         $req->bindValue(':par_nom',$nomTournoi, PDO::PARAM_STR);
         $req->bindValue(':par_idTO',$idTO, PDO::PARAM_INT);
         $req->execute();
+    }
+
+    /**
+     * Récupère les tournois organisé par l'utilisateur
+     * 
+     * @param $id
+     * @return une liste des tournois
+     */
+    public function getLesTournoisUtilisateur($id)
+    {
+        $req = PdoSmashTracker::$monPdo->prepare(
+            "SELECT nom
+            FROM Tournoi
+            WHERE idTo = :par_id"
+        );
+        $req->bindValue(':par_id',$id, PDO::PARAM_INT);
+        $req->execute();
+        return $req->fetchAll();
     }
 }
 
